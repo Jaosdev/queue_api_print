@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: zebra_api_app
+    ports:
+      - "8200:80"
+    # bind‐mounts hacia carpetas de tu proyecto
+    volumes:
+      - ./queue:/var/www/html/queue
+      - ./public:/var/www/html/public
+      - ./src:/var/www/html/src
+    restart: always
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: zebra_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest

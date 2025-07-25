@@ -1,0 +1,24 @@
+{
+    "job_6882a908369b0": {
+        "filename": "doc_6882a907a99d0.png",
+        "path": "uploads\/doc_6882a907a99d0.png",
+        "type": "png",
+        "user": "andres",
+        "printerType": "Default",
+        "impType": "html",
+        "id": "job_6882a908369b0",
+        "status": "error",
+        "attempts": 11
+    },
+    "job_6882a95414081": {
+        "filename": "doc_6882a95392911.png",
+        "path": "uploads\/doc_6882a95392911.png",
+        "type": "png",
+        "user": "andres",
+        "printerType": "Default",
+        "impType": "html",
+        "id": "job_6882a95414081",
+        "status": "error",
+        "attempts": 11
+    }
+}

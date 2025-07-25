@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  title: API de Impresión
+  version: '3.0.0'
+  description: Documentación generada manualmente
+servers:
+  - url: http://145.223.126.176:8200
+paths:
+  /print:
+    post:
+      summary: Procesar un nuevo trabajo de impresión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [printer, impType]
+              properties:
+                printer:
+                  type: string
+                impType:
+                  type: string
+                htmlToDraw:
+                  type: string
+                dpi:
+                  type: integer
+                width:
+                  type: integer
+                height:
+                  type: integer
+                speed:
+                  type: integer
+                quality:
+                  type: integer
+      responses:
+        '200':
+          description: Trabajo agregado correctamente
+        '400':
+          description: Error en los parámetros de entrada
+        '500':
+          description: Falló la conversión o carga
+
+  /print/queue:
+    post:
+      summary: Agregar trabajo a la cola
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [filename, path, type, user, printerType, impType]
+              properties:
+                filename:   { type: string }
+                path:       { type: string }
+                type:       { type: string }
+                user:       { type: string }
+                printerType:{ type: string }
+                impType:    { type: string }
+      responses:
+        '200': { description: Trabajo añadido a la cola }
+        '400': { description: Campo requerido faltante }
+
+    get:
+      summary: Obtener la cola de impresión por estado
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Cola obtenida correctamente }
+
+  /print/queue/{jobName}:
+    delete:
+      summary: Eliminar trabajo de la cola
+      parameters:
+        - name: jobName
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Trabajo enviado para eliminación }
+        '400': { description: Nombre del trabajo no especificado }
+
+  /print/update:
+    post:
+      summary: Actualizar el estado de un trabajo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [filename, status]
+              properties:
+                filename: { type: string }
+                status:   { type: string }
+      responses:
+        '200': { description: Estado actualizado }
+        '400': { description: Faltan datos requeridos }
+
+  /logs/impresiones:
+    get:
+      summary: Obtener el log de trabajos impresos
+      responses:
+        '200': { description: Contenido del log en texto plano }
+        '404': { description: Archivo no encontrado }
+
+  /logs/eliminaciones:
+    get:
+      summary: Obtener el log de trabajos eliminados
+      responses:
+        '200': { description: Contenido del log }
+        '404': { description: Archivo no encontrado }
+
+  /logs/errores-impresion:
+    get:
+      summary: Obtener el log de errores en impresión
+      responses:
+        '200': { description: Contenido del log }
+        '404': { description: Archivo no encontrado }
+
+  /logs/errores-eliminacion:
+    get:
+      summary: Obtener el log de errores en eliminación
+      responses:
+        '200': { description: Contenido del log }
+        '404': { description: Archivo no encontrado }
+
+  /logs/worker:
+    get:
+      summary: Obtener el log completo del worker (para pruebas)
+      responses:
+        '200': { description: Contenido del log }
+        '404': { description: Archivo no encontrado }
